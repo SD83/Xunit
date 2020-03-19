@@ -56,6 +56,30 @@ namespace CreditCardApplications.Tests
         }
 
         [Fact]
+        public void DeclineLowINcomeApplicationsWithOutParam()
+        {
+            Mock<IFrequentFlyerNumberValidator> mockValidator = new Mock<IFrequentFlyerNumberValidator>();
+            bool isValid = true;
+            mockValidator.Setup(x => x.IsValid(It.IsAny<string>(), out isValid));
+            // mockValidator.Setup(x => x.IsValid(It.Is<string>(number => number.StartsWith('x')))).Returns(true);
+            //mockValidator.Setup(x => x.IsValid(It.IsIn("x","y","z"))).Returns(true);
+            mockValidator.Setup(x => x.IsValid(It.IsInRange("a", "z", Range.Inclusive))).
+                    Returns(true);
+            var sut = new CreditCardApplicationEvaluator(mockValidator.Object);
+            var application = new CreditCardApplication
+            {
+                Age = 42,
+                GrossAnnualIncome = 19_999,
+                FrequentFlyerNumber = "x"
+            };
+            CreditCardApplicationDecision decision = sut.EvaluateUsingOut(application);
+
+            Assert.Equal(CreditCardApplicationDecision.AutoDeclined, decision);
+
+
+        }
+
+        [Fact]
         public void ReferInvalidFrequestFlerApplications()
         {
             Mock<IFrequentFlyerNumberValidator> mockValidator = 
