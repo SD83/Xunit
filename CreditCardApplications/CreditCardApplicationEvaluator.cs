@@ -21,7 +21,13 @@
 
             var isValidFrequestFlyerNumber = _validator.IsValid(application.FrequentFlyerNumber);
 
-            if(!isValidFrequestFlyerNumber)
+            if (_validator.serviceInformation.License.LicenseKey == "EXPIRED")
+            {
+                return CreditCardApplicationDecision.ReferredToHuman;
+            }
+
+
+            if (!isValidFrequestFlyerNumber)
             {
                 return CreditCardApplicationDecision.ReferredToHuman;
             }
@@ -38,12 +44,14 @@
             return CreditCardApplicationDecision.ReferredToHuman;
         }
 
-        public CreditCardApplicationDecision EvaluateUsingOut(CreditCardApplication application)
+        /*public CreditCardApplicationDecision EvaluateUsingOut(CreditCardApplication application)
         {
             if (application.GrossAnnualIncome >= HighIncomeThreshhold)
             {
                 return CreditCardApplicationDecision.AutoAccepted;
             }
+
+           
 
             _validator.IsValid(application.FrequentFlyerNumber, out var isValidFrequestFlyerNumber);
 
@@ -62,6 +70,6 @@
             }
 
             return CreditCardApplicationDecision.ReferredToHuman;
-        }
+        }*/
     }
 }

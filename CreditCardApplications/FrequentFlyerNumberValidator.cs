@@ -14,6 +14,10 @@ namespace CreditCardApplications
     /// </summary>
     public class FrequentFlyerNumberValidatorService : IFrequentFlyerNumberValidator
     {
+        public string LicenseKey => throw new NotImplementedException();
+
+        public IServiceInformation serviceInformation => throw new NotImplementedException();
+
         public bool IsValid(string frequentFlyerNumber)
         {
             throw new NotImplementedException("For demo purposes");
